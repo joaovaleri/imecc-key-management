@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#000000">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registro de Chaves</title>
+  <style>
+.primary-with-side{
+  position: relative;          
+  display: inline-block;       
+}
+
+.primary-with-side .side-btn{
+  position: absolute;
+  left: 100%;                  
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 12px;          
+}
+
+.btn--sm {
+  padding: 1px 4px;      
+  font-size: 12px;         
+  border-radius: 4px;      
+  line-height: 1.2;
+  box-shadow: none;        
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+.btn--sm.btn--ghost {
+  background: rgba(255,255,255,0.05);
+  color: #ddd;
+  border-color: rgba(255,255,255,0.15);
+
+}
+
+.btn--sm.btn--ghost:hover {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+}
+
+
+
+@media (max-width: 520px){
+  .primary-with-side .side-btn{
+    position: static;
+    transform: none;
+    margin: 10px auto 0;       
+    display: block;
+  }
+}
+
+.inline-actions{
+  display:inline-flex;
+  align-items:center;
+  gap:14px;            
+}
+
+.btn--sm{
+  padding:6px 10px;      
+  font-size:13px;
+  line-height:1.1;
+  box-shadow:none;       
+  letter-spacing:.1px;
+}
+
+
+    :root{
+      --bg:#0a0a0a;
+      --bg-elev:#111213;
+      --card:#ffffff;
+      --card-fg:#0a0a0a;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --accent:#000000;
+      --accent-2:#1f2937;
+      --radius:14px;
+      --shadow:0 6px 24px rgba(0,0,0,.25);
+      --focus:2px solid #111827;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+      color:#fff;
+      background:
+        radial-gradient(1200px 800px at 10% -20%, rgba(255,255,255,.06), transparent 60%),
+        radial-gradient(1200px 800px at 110% 120%, rgba(255,255,255,.06), transparent 60%),
+        linear-gradient(135deg, var(--bg), #202020 65%, var(--bg-elev));
+      padding:24px;
+    }
+    
+#conteudoSistema{
+  display: flex;
+  flex-direction: column;
+  align-items: center;   
+}
+.form-box h3 { text-align: center; margin: 0 0 12px; }
+
+
+#conteudoSistema > h2{
+  width: 100%;
+  max-width: 1100px;    
+  margin: 0 auto 24px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+
+    .container{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:20px;
+      max-width:1100px;
+      margin:0 auto 18px;
+    }
+    .form-box{
+      background:var(--card);
+      color:var(--card-fg);
+      padding:22px;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      border:1px solid var(--border);
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .form-box:hover{transform:translateY(-2px); box-shadow:0 12px 28px rgba(0,0,0,.28)}
+    .form-box h3{margin:0 0 8px; font-size:18px}
+    form{display:flex; flex-direction:column; gap:10px}
+
+    label{font-weight:700; font-size:13px}
+    input{
+      width:100%;
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:#f7f7f8;
+      font-size:15px;
+      transition:border-color .15s ease, background .15s ease, box-shadow .15s ease;
+    }
+    input:focus-visible{
+      outline:var(--focus);
+      border-color:#1f2937;
+      background:#fff;
+      box-shadow:0 0 0 4px rgba(31,41,55,.12);
+    }
+    #nomeBuscado{
+      margin-top:8px;
+      font-weight:700;
+      color:#111827;
+      text-align:center;
+      min-height:24px;
+      transition:all .2s ease;
+    }
+
+
+    .actions-center{
+      display:flex; justify-content:center;
+      max-width:1100px; margin:6px auto 0;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:8px; padding:12px 18px;
+      background:#ffffff; color:#000;
+      border:1px solid var(--border);
+      border-radius:999px;
+      font-weight:800; letter-spacing:.2px;
+      cursor:pointer; transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+      box-shadow:0 4px 14px rgba(0,0,0,.18);
+      text-decoration:none; user-select:none;
+    }
+    .btn:active{transform:translateY(0)}
+    .btn--primary{
+      background:var(--accent);
+      color:#fff;
+      border-color:#000;
+    }
+    .btn--primary:hover{background:var(--accent-2)}
+    .btn--ghost{
+      background:transparent; color:#fff; border-color:#2b2b2b;
+    }
+    .btn:focus-visible{outline:var(--focus)}
+
+    .listas{
+      display:none;
+      padding:20px;
+      max-width:1100px; margin:0 auto;
+    }
+    .listas h2{margin-bottom:16px}
+    .listas-wrap{
+      display:grid; gap:22px;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      align-items:start;
+    }
+    .panel{
+      background:#fff; color:#0a0a0a;
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:18px;
+    }
+    .panel h3{margin:0 0 8px}
+    ul{list-style:none; padding:0; margin:8px 0 10px}
+    .card{
+      background:#f9fafb;
+      border:1px solid #ececec;
+      border-radius:12px;
+      padding:12px 14px;
+      margin-bottom:10px;
+      box-shadow:0 2px 10px rgba(0,0,0,.06);
+      transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+      cursor:pointer;
+    }
+    .card:hover{transform:translateY(-1px); box-shadow:0 6px 18px rgba(0,0,0,.12); border-color:#e5e7eb}
+    .card strong{display:block; margin-bottom:2px}
+    .toolbar-center{display:flex; justify-content:center; margin-top:8px}
+
+    .toast{
+      position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+      background:rgba(0,0,0,.92); color:#fff;
+      padding:14px 18px; border-radius:14px;
+      font-size:14px; font-weight:700; letter-spacing:.2px;
+      opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease;
+      z-index:9999; box-shadow:0 10px 28px rgba(0,0,0,.35);
+    }
+    .toast.show{opacity:1; pointer-events:auto}
+
+    #loadingSpinner{
+      display:none; position:fixed; inset:0; z-index:10000;
+      place-items:center; background:rgba(0,0,0,.25); backdrop-filter:saturate(120%) blur(2px);
+    }
+    #loadingSpinner div{
+      border:6px solid #e5e7eb; border-top:6px solid #000; border-radius:50%;
+      width:54px; height:54px; animation:spin 1s linear infinite;
+      box-shadow:inset 0 0 10px rgba(0,0,0,.08);
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .app-blur{filter:blur(4px); pointer-events:none; user-select:none}
+
+    @media (prefers-reduced-motion: reduce){
+      *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition:none !important; scroll-behavior:auto !important}
+    }
+    .input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding-right: 40px; 
+}
+
+.input-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #555;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color .15s ease, transform .1s ease;
+}
+.input-btn svg {
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+
+.input-btn:hover {
+  color: #000;
+  transform: translateY(-50%) scale(1.2);
+}
+
+.input-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+.modal-alunos {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(3px);
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.modal-card {
+  background: #fff;
+  color: #000;
+  width: min(520px, 92vw);
+  max-height: 80vh;
+  overflow: auto;
+  border-radius: 14px;
+  box-shadow: 0 16px 48px rgba(0,0,0,.35);
+  border: 1px solid #e5e7eb;
+  padding: 16px;
+}
+.modal-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.modal-head h3 { margin: 0; font-size: 18px; }
+.modal-close { background: transparent; border: 0; font-size: 22px; line-height: 1; cursor: pointer; padding: 6px; color: #444; }
+.modal-close:hover { color: #000; }
+.modal-search { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 10px; margin: 6px 0 10px; font-size: 14px; }
+.alunos-list { list-style: none; margin: 0; padding: 0; }
+.alunos-list li { padding: 10px 12px; border-bottom: 1px solid #eee; cursor: pointer; border-radius: 8px; transition: background .12s ease; }
+.alunos-list li:hover { background: #f6f6f7; }
+.badge-ra { font-size: 12px; color: #555; }
+
+  </style>
+</head>
+<body>
+  <div id="appWrapper">
+    <div id="conteudoSistema">
+      <h2>Gerenciamento de Chaves</h2>
+      <div class="container">
+        <div class="form-box">
+          <h3>Registro de Chaves</h3>
+          
+          <form id="registroForm">
+            <label for="ra">Matrícula</label>
+<div class="input-wrapper">
+  <input id="ra" type="text" required inputmode="numeric" autocomplete="on" >
+  <button type="button" class="input-btn" title="Ver lista" onclick="abrirListaAlunos()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+       stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="6 9 12 15 18 9"></polyline>
+  </svg>
+</button>
+
+</div>
+
+            <p id="nomeBuscado"></p>
+            <label for="chave">Chave</label>
+            <input id="chave" type="text" required autocomplete="off">
+            <button class="btn btn--primary" type="submit">Registrar</button>
+            
+          </form>
+          
+        </div>
+          
+        <div class="form-box">
+          <h3>Devolução de Chaves</h3>
+          <form id="devolucaoForm">
+            <label for="devolucaoChave">Chave</label>
+            <input id="devolucaoChave" type="text" required autocomplete="off">
+            <button class="btn btn--primary" type="submit">Devolver</button>
+          </form>
+        </div>
+
+        <div class="form-box">
+          <h3>Cadastro de Usuário</h3>
+          <form id="cadastroForm">
+            <label for="nome">Nome</label>
+            <input id="nome" type="text" required autocomplete="name">
+            <label for="cadastroRa">RA</label>
+            <input id="cadastroRa" type="text" required inputmode="numeric" autocomplete="on">
+            <button class="btn btn--primary" type="submit">Cadastrar</button>
+          </form>
+        </div>
+      </div>
+
+  <div class="actions-center">
+  <div class="primary-with-side">
+    <button class="btn" onclick="mostrarListas()">Alunos Anexo I</button>
+    <button class="btn btn--ghost side-btn" onclick="location.href='https://ime.unicamp.br/~operacional'">Voltar</button>
+    
+  </div>
+</div>
+
+
+    </div>
+
+    <div id="secaoListas" class="listas">
+      <h2>Listagem de Alunos</h2>
+      <div class="listas-wrap">
+        <div class="panel">
+          <h3>Alunos para Entregar Chave</h3>
+          <ul id="lista1"></ul>
+          <div class="toolbar-center">
+            <button class="btn btn--primary" onclick="enviarEmailTeste()">Entregar</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Alunos para devolver as chaves</h3>
+          <ul id="lista2"></ul>
+          <div class="toolbar-center">
+            <button class="btn btn--primary" onclick="devolverSelecionadoLista2()">Devolver</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions-center" style="margin-top:16px">
+        <button class="btn btn--ghost" onclick="voltarSistema()" style="width:min(420px,90%)">Voltar</button>
+      </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+  </div>
+
+  <div id="loadingSpinner"><div></div></div>
+
+  <script>
+    function showToast(message){const t=document.getElementById("toast");t.textContent=message;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),6000)}
+    const DEV_TIMEOUT_MS=20000;
+    const apiUrl="PLACEHOLDER";
+    const apiUrl2="PLACEHOLDER";
+    const apiUrl3="PLACEHOLDER";
+
+const ALUNOS_CACHE_KEY = "alunos_cache_v1";
+
+function tsDas8h(baseTs = Date.now()){
+  const d = new Date(baseTs);
+  d.setHours(8,0,0,0);
+  return d.getTime();
+}
+function precisaAtualizarAlunos(){
+  const now = Date.now();
+  let meta;
+  try { meta = JSON.parse(localStorage.getItem(ALUNOS_CACHE_KEY) || "{}"); } catch {}
+  const last = meta?.at || 0;
+  const hoje8 = tsDas8h();
+  const ontem8 = tsDas8h(Date.now() - 24*60*60*1000);
+  
+  return !last || last < ontem8 || (now >= hoje8 && last < hoje8);
+}
+
+async function fetchDumpAlunos(force=false){
+  if(!force && !precisaAtualizarAlunos()){
+    try{
+      const { data } = JSON.parse(localStorage.getItem(ALUNOS_CACHE_KEY) || "{}");
+      if (Array.isArray(data)) return data;
+    }catch{}
+  }
+  const txt = await fetch(apiUrl, {
+    method: "POST",
+    headers: {"Content-Type":"text/plain;charset=utf-8"},
+    body: "listar_alunos=true"
+  }).then(r=>r.text());
+  const json = JSON.parse(txt);
+  if(json.status === "success" && Array.isArray(json.alunos)){
+    localStorage.setItem(ALUNOS_CACHE_KEY, JSON.stringify({ at: Date.now(), data: json.alunos }));
+    return json.alunos;
+  }
+  throw new Error("Falha ao carregar alunos");
+}
+
+async function lookupNomePorRA(raStr){
+  const ra6 = String(raStr||"").trim().toUpperCase().slice(-6);
+  if (!ra6) return null;
+
+  try{
+    const { data } = JSON.parse(localStorage.getItem(ALUNOS_CACHE_KEY) || "{}");
+    if (Array.isArray(data) && data.length){
+      const hit = data.find(a => String(a.ra||"").toUpperCase().slice(-6) === ra6);
+      if (hit) return hit.nome || null;
+    }
+  }catch{}
+
+  
+  const dados = `busca_ra=${encodeURIComponent(ra6)}`;
+  const txt = await fetch(apiUrl, {
+    method:"POST",
+    headers:{"Content-Type":"text/plain;charset=utf-8"},
+    body:dados
+  }).then(r=>r.text());
+  const res = JSON.parse(txt);
+  return res && res.nome ? res.nome : null;
+}
+
+    const REGISTRO_QUEUE_KEY="registro_queue_v1"; let registroQueue=[]; let _processingReg=false;
+    function loadRegQueue(){try{registroQueue=JSON.parse(localStorage.getItem(REGISTRO_QUEUE_KEY)||"[]")}catch{registroQueue=[]}updatePendingBadge&&updatePendingBadge()}
+    function saveRegQueue(){localStorage.setItem(REGISTRO_QUEUE_KEY,JSON.stringify(registroQueue));updatePendingBadge&&updatePendingBadge()}
+    function enqueueRegistro(ra,chave){ra=(ra||"").trim().toUpperCase();if(ra.length>=6)ra=ra.slice(-6);chave=(chave||"").trim().toUpperCase();if(!ra||!chave)return;registroQueue.push({ra,chave,retries:0,lastTryAt:0});saveRegQueue();processRegQueue()}
+    async function sendOneRegistro(item,signal){const dados=`op=registrar&ra=${encodeURIComponent(item.ra)}&chave=${encodeURIComponent(item.chave)}`;const res=await fetch(apiUrl,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:dados,signal});const txt=await res.text();let json;try{json=JSON.parse(txt)}catch{json={status:"success"}}if(json.status&&json.status!=="success")throw new Error(json.message||"Falha ao registrar")}
+    function sleepReg(ms){return new Promise(r=>setTimeout(r,ms))}
+    async function processRegQueue(){if(_processingReg)return;_processingReg=true;try{while(registroQueue.length>0){const item=registroQueue[0];const controller=new AbortController();const to=setTimeout(()=>controller.abort("timeout"),DEV_TIMEOUT_MS||20000);try{await sendOneRegistro(item,controller.signal);registroQueue.shift();saveRegQueue()}catch(err){item.retries=(item.retries||0)+1;item.lastTryAt=Date.now();saveRegQueue();if(item.retries>=5){noteError&&noteError(`Falha ao registrar ${item.chave} (esgotado).`);registroQueue.shift();saveRegQueue()}else{const waitMs=Math.min(15000,1000*Math.pow(2,item.retries));await sleepReg(waitMs)}}finally{clearTimeout(to)}}}finally{_processingReg=false}}
+    window.addEventListener("load",loadRegQueue);
+    window.forcarReenvioRegistros=function(){if(registroQueue.length===0){showToast("Sem pendências de registro.");return}showToast("Reenviando pendências de registro…");processRegQueue()};
+    window.limparPendentesRegistro=function(){const n=registroQueue.length;registroQueue=[];saveRegQueue();showToast(`Limpou ${n} pendência(s) de registro.`)};
+
+    const DEVOLUCAO_QUEUE_KEY="devolucao_queue_v1"; let devolucaoQueue=[]; let processing=false; let pendingBadgeEl=null;
+    function loadQueue(){try{devolucaoQueue=JSON.parse(localStorage.getItem(DEVOLUCAO_QUEUE_KEY)||"[]")}catch{devolucaoQueue=[]}updatePendingBadge()}
+    function saveQueue(){localStorage.setItem(DEVOLUCAO_QUEUE_KEY,JSON.stringify(devolucaoQueue));updatePendingBadge()}
+    function updatePendingBadge(){if(!pendingBadgeEl){pendingBadgeEl=document.createElement("div");pendingBadgeEl.style.position="fixed";pendingBadgeEl.style.right="16px";pendingBadgeEl.style.bottom="16px";pendingBadgeEl.style.padding="6px 10px";pendingBadgeEl.style.background="#000";pendingBadgeEl.style.color="#fff";pendingBadgeEl.style.borderRadius="999px";pendingBadgeEl.style.fontSize="12px";pendingBadgeEl.style.boxShadow="0 2px 6px rgba(0,0,0,.3)";pendingBadgeEl.style.opacity="0.85";pendingBadgeEl.style.zIndex="99999";document.body.appendChild(pendingBadgeEl)}const nDev=Array.isArray(devolucaoQueue)?devolucaoQueue.length:0;const nReg=Array.isArray(registroQueue)?registroQueue.length:0;pendingBadgeEl.textContent=(nDev+nReg)===0?"Sem pendências":`Pend. Dev: ${nDev} | Pend. Reg: ${nReg}`}
+    function enqueueDevolucao(chave){devolucaoQueue.push({chave,retries:0,lastTryAt:0});saveQueue();processQueue()}
+    async function sendOne(item,signal){const dados=`op=devolver&chave=${encodeURIComponent(item.chave)}`;const res=await fetch(apiUrl,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:dados,signal});const txt=await res.text();let json;try{json=JSON.parse(txt)}catch{json={status:"success"}}if(json.status&&json.status!=="success"){throw new Error(json.message||"Falha ao devolver")}}
+    function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+    async function processQueue(){if(processing)return;processing=true;try{while(devolucaoQueue.length>0){const item=devolucaoQueue[0];const controller=new AbortController();const to=setTimeout(()=>controller.abort("timeout"),DEV_TIMEOUT_MS);try{await sendOne(item,controller.signal);devolucaoQueue.shift();saveQueue()}catch(err){item.retries=(item.retries||0)+1;item.lastTryAt=Date.now();saveQueue();if(item.retries>=5){noteError(`Falha ao devolver ${item.chave}: ${err&&err.message?err.message:"erro"}${item.retries>=5?" (esgotado)":""}`);devolucaoQueue.shift();saveQueue()}else{const waitMs=Math.min(15000,1000*Math.pow(2,item.retries));await sleep(waitMs)}}finally{clearTimeout(to)}}}finally{processing=false}}
+    window.addEventListener("load",loadQueue);
+    window.addEventListener("online",()=>{showToast("Conexão restaurada. Reenviando pendências...");processQueue()});
+    let lastErrorAt=0; function noteError(msg){const now=Date.now();if(now-lastErrorAt>4000){showToast(msg);lastErrorAt=now}}
+
+    function showLoading(){document.getElementById("loadingSpinner").style.display="grid";document.getElementById("appWrapper").classList.add("app-blur")}
+    function hideLoading(){document.getElementById("loadingSpinner").style.display="none";document.getElementById("appWrapper").classList.remove("app-blur")}
+
+    function validarLogin(){const usuario=document.getElementById("usuario").value.trim().toUpperCase();const senha=document.getElementById("senha").value.trim().toUpperCase();if(!usuario||!senha){showToast("Preencha usuário e senha.");return}const dados=`usuario=${encodeURIComponent(usuario)}&senha=${encodeURIComponent(senha)}`;showLoading();fetch(apiUrl,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:dados}).then(res=>res.text()).then(txt=>{hideLoading();let res;try{res=JSON.parse(txt)}catch(e){showToast("Resposta inválida do servidor.");return}if(res.status==="success"){document.getElementById("loginBox").style.display="none";document.getElementById("conteudoSistema").style.display="block"}else{document.getElementById("erroLogin").style.display="block"}}).catch(()=>{hideLoading();showToast("Erro ao tentar autenticar.")})}
+
+    window.addEventListener("DOMContentLoaded",function(){
+fetchDumpAlunos().catch(()=>{});
+
+document.getElementById("ra").addEventListener("blur", async function(){
+  const ra = this.value.trim().toUpperCase();
+  if(!ra) return;
+  const nomeLbl = document.getElementById("nomeBuscado");
+  try{
+    showLoading();
+    const nome = await lookupNomePorRA(ra);
+    nomeLbl.textContent = nome ? nome : "RA não encontrado.";
+  } catch {
+    showToast("Erro ao buscar nome.");
+  } finally {
+    hideLoading();
+  }
+});
+
+
+      document.getElementById("registroForm").addEventListener("submit",function(e){
+        e.preventDefault();
+        const raInput=document.getElementById("ra");
+        const chaveInput=document.getElementById("chave");
+        let ra=raInput.value; let chave=chaveInput.value;
+        if(!ra||!chave){showToast("Preencha RA e Chave.");return}
+        chaveInput.value=""; chaveInput.focus();
+        enqueueRegistro(ra,chave);
+        showToast(`Enfileirado registro: RA ${String(ra).slice(-6).toUpperCase()} | Chave ${String(chave).toUpperCase()}`);
+      });
+
+      document.getElementById("chave").addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();this.form.requestSubmit()}});
+
+      document.getElementById("devolucaoForm").addEventListener("submit",function(e){
+        e.preventDefault();
+        const inputChave=document.getElementById("devolucaoChave");
+        let chave=inputChave.value.trim().toUpperCase();
+        if(!chave){showToast("Informe a chave para devolução.");inputChave.focus();return}
+        inputChave.value=""; inputChave.focus();
+        enqueueDevolucao(chave);
+        showToast(`Enfileirada devolução da chave ${chave}.`);
+      });
+
+      document.getElementById("cadastroForm").addEventListener("submit",function(e){
+        e.preventDefault();
+        let nome=document.getElementById("nome").value.trim().toUpperCase();
+        let ra=document.getElementById("cadastroRa").value.trim().toUpperCase();
+        if(!nome||!ra){showToast("Preencha nome e RA.");return}
+        if(ra.length>=6) ra=ra.slice(-6);
+        const dados=`nome=${encodeURIComponent(nome)}&ra=${encodeURIComponent(ra)}`;
+        showLoading();
+        fetch(apiUrl,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:dados})
+          .then(()=>{hideLoading();document.getElementById("nome").value="";document.getElementById("cadastroRa").value="";showToast("Usuário cadastrado!")
+            try { localStorage.removeItem(ALUNOS_CACHE_KEY); } catch {}
+  fetchDumpAlunos(true).catch(()=>{});
+          })
+          
+          .catch(()=>{hideLoading();showToast("Erro ao cadastrar usuário.")});
+          
+      });
+    });
+
+    if("serviceWorker" in navigator){
+      window.addEventListener("load",()=>{navigator.serviceWorker.register("service-worker.js").catch(()=>{})});
+    }
+
+    function mostrarListas(){
+      document.getElementById("conteudoSistema").style.display="none";
+      document.getElementById("secaoListas").style.display="block";
+      document.getElementById("appWrapper").classList.add("app-blur");
+      showLoading();
+      const lista1Promise=fetch(apiUrl2,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:"buscar_alunos=true"}).then(res=>res.text());
+      const lista2Promise=fetch(apiUrl3,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:"buscar_lista2=true"}).then(res=>res.text());
+
+      Promise.all([lista1Promise,lista2Promise]).then(([txt1,txt2])=>{
+        hideLoading();document.getElementById("appWrapper").classList.remove("app-blur");
+        let json1; try{json1=JSON.parse(txt1)}catch{showToast("Erro ao carregar alunos da Lista 1.");return}
+        if(json1.status==="success"){
+          const ul1=document.getElementById("lista1"); ul1.innerHTML="";
+          json1.alunos.forEach(aluno=>{
+            const li=document.createElement("li");
+            li.innerHTML=`<div class="card cartao-aluno" data-nome="${aluno.nome}" data-matricula="${aluno.matricula}" data-sala="${aluno.sala}">
+              <strong>${aluno.nome}</strong>
+              Matrícula: ${aluno.matricula}<br> Sala: ${aluno.sala}
+            </div>`;
+            const cartao=li.querySelector(".cartao-aluno");
+            cartao.addEventListener("click",()=>{
+              document.querySelectorAll(".cartao-aluno").forEach(el=>el.style.border="1px solid #ececec");
+              cartao.style.border="2px solid #000";
+            });
+            ul1.appendChild(li);
+          });
+        }
+
+        let json2; try{json2=JSON.parse(txt2)}catch{showToast("Erro ao carregar devoluções.");return}
+        if(json2.status==="success"){
+          const ul2=document.getElementById("lista2"); ul2.innerHTML="";
+          json2.alunos.forEach(item=>{
+            const li=document.createElement("li");
+            li.innerHTML=`<div class="card cartao-devolucao" data-nome="${item.nome}" data-ra="${item.ra}" data-chave="${item.chave}">
+              <strong>${item.nome}</strong>
+              RA: ${item.ra}<br> Chave: ${item.chave}
+            </div>`;
+            const cartao=li.querySelector(".cartao-devolucao");
+            cartao.addEventListener("click",()=>{
+              document.querySelectorAll(".cartao-devolucao").forEach(el=>el.style.border="1px solid #ececec");
+              cartao.style.border="2px solid #000";
+            });
+            ul2.appendChild(li);
+          });
+        }
+      }).catch(()=>{hideLoading();showToast("Erro ao carregar listas.")});
+    }
+
+    function voltarSistema(){
+      document.getElementById("secaoListas").style.display="none";
+      document.getElementById("conteudoSistema").style.display="block";
+    }
+
+    function enviarEmailTeste(){
+      const selecionado=document.querySelector(".cartao-aluno[style*='2px solid']");
+      if(!selecionado){showToast("Selecione um aluno primeiro.");return}
+      const nome=selecionado.dataset.nome; const matricula=selecionado.dataset.matricula;
+      if(!nome||!matricula){showToast("Dados incompletos no cartão.");return}
+      const dados=`teste_email=${encodeURIComponent(matricula)}`;
+      showLoading();
+      fetch(apiUrl2,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:dados,mode:"no-cors"})
+        .then(()=>{hideLoading();showToast(`E-mail enviado para ${nome}.`);const li=selecionado.closest("li");if(li) li.remove()})
+        .catch(()=>{hideLoading();showToast("Erro ao enviar.")});
+    }
+
+    function devolverSelecionadoLista2(){
+      const selecionado=document.querySelector(".cartao-devolucao[style*='2px solid']");
+      if(!selecionado){showToast("Selecione um aluno primeiro.");return}
+      const ra=selecionado.dataset.ra; if(!ra){showToast("RA não encontrado.");return}
+      showLoading();
+      const dados=`devolver_chave_ra=${encodeURIComponent(ra)}`;
+      fetch(apiUrl3,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:dados})
+        .then(res=>res.text()).then(txt=>{
+          hideLoading(); let res; try{res=JSON.parse(txt)}catch{showToast("Erro ao interpretar resposta.");return}
+          if(res.status==="success"){showToast("Chave marcada como devolvida e e-mail enviado!");const li=selecionado.closest("li");if(li) li.remove()}
+          else{showToast(res.message||"Erro ao devolver chave.")}
+        })
+        .catch(()=>{hideLoading();showToast("Erro ao conectar.")});
+    }
+    let _alunosCache = null;
+
+function abrirListaAlunos() {
+  const modal = document.getElementById("modalAlunos");
+  const ul = document.getElementById("listaAlunos");
+  const filtro = document.getElementById("filtroAluno");
+
+  modal.style.display = "flex";
+  ul.innerHTML = "<li>Carregando...</li>";
+  filtro.value = "";
+
+  const render = (alunos) => {
+    ul.innerHTML = "";
+    if (!alunos || alunos.length === 0) {
+      ul.innerHTML = "<li>Nenhum aluno encontrado.</li>";
+      return;
+    }
+    alunos.forEach(a => {
+      const li = document.createElement("li");
+      li.innerHTML = `<strong>${a.nome}</strong> <span class="badge-ra">— ${a.ra}</span>`;
+      li.onclick = () => {
+        document.getElementById("ra").value = a.ra || "";
+        const nomeLbl = document.getElementById("nomeBuscado");
+        if (nomeLbl) nomeLbl.textContent = a.nome || "";
+        fecharListaAlunos();
+      };
+      ul.appendChild(li);
+    });
+  };
+
+  const applyFilter = () => {
+    const termo = filtro.value.trim().toLowerCase();
+    if (!_alunosCache) return;
+    const filtrados = _alunosCache.filter(a =>
+      (a.nome || "").toLowerCase().includes(termo) ||
+      (String(a.ra || "")).toLowerCase().includes(termo)
+    );
+    render(filtrados);
+  };
+  filtro.oninput = applyFilter;
+
+  const carregar = () => {
+  showLoading();
+  fetchDumpAlunos() 
+    .then(list => {
+      hideLoading();
+      _alunosCache = list;
+      render(_alunosCache);
+      filtro.focus();
+    })
+    .catch(()=>{
+      hideLoading();
+      ul.innerHTML = "<li>Erro ao carregar.</li>";
+    });
+};
+
+
+  carregar();
+
+  
+  modal.addEventListener("click", (e) => { if (e.target === modal) fecharListaAlunos(); }, { once: true });
+  document.addEventListener("keydown", escHandler);
+  function escHandler(ev){ if (ev.key === "Escape") { fecharListaAlunos(); document.removeEventListener("keydown", escHandler); } }
+}
+
+function fecharListaAlunos() {
+  document.getElementById("modalAlunos").style.display = "none";
+}
+
+  </script>
+  <div id="modalAlunos" class="modal-alunos" aria-hidden="true">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalAlunosTitulo">
+    <div class="modal-head">
+      <h3 id="modalAlunosTitulo">Selecionar aluno</h3>
+      <button class="modal-close" aria-label="Fechar" onclick="fecharListaAlunos()">×</button>
+    </div>
+
+    <input id="filtroAluno" class="modal-search" type="text" placeholder="Filtrar por nome ou RA..." />
+
+    <ul id="listaAlunos" class="alunos-list">
+      <li>Carregando...</li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>
